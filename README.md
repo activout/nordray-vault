@@ -31,8 +31,13 @@ including the Recycle Bin, are ignored. For example, the title `MyApp__Database_
 name is written to stderr. `NORDRAY_VAULT_*` variables are removed before the app starts. Any error stops the start-up
 without printing a secret.
 
-The binary is static (musl), so it runs in any Linux image. Releases also attach it as a download, with checksums
-and a build provenance attestation.
+The binary is static (musl), so it runs in any Linux image. Releases also attach it as a download, with checksums.
+Both the image and the binary have build provenance attestations:
+
+```sh
+gh attestation verify oci://ghcr.io/activout/nordray-vault:v0.1.0 --repo activout/nordray-vault
+gh attestation verify nordray-vault_v0.1.0_linux_amd64 --repo activout/nordray-vault
+```
 
 ## Managing secrets
 

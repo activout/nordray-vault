@@ -1,6 +1,8 @@
 # A v* tag tests, then publishes ghcr.io/activout/nordray-vault:<tag> and a GitHub release with the static
-# linux/amd64 binary, its SHA256SUMS and a build provenance attestation. Verify a download with:
+# linux/amd64 binary and its SHA256SUMS. The binary and the image both get a build provenance attestation; the
+# image's is also pushed to the registry. Verify with:
 #   gh attestation verify nordray-vault_<version>_linux_amd64 --repo activout/nordray-vault
+#   gh attestation verify oci://ghcr.io/activout/nordray-vault:<version> --repo activout/nordray-vault
 name: release
 
 on:
@@ -35,13 +37,26 @@ jobs:
           docker cp "$id:/nordray-vault" "dist/nordray-vault_${VERSION}_linux_amd64"
           docker rm "$id"
           (cd dist && sha256sum nordray-vault_* > SHA256SUMS && cat SHA256SUMS)
-      - uses: actions/attest-build-provenance@v4
+      - name: Attest binary
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: dist/nordray-vault_*
-      - name: Publish
+      - name: Push image
+        id: push
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           echo "$GH_TOKEN" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
           docker push "$IMAGE"
-          gh release create "$VERSION" dist/* --generate-notes
+          digest=$(docker inspect --format '{{index .RepoDigests 0}}' "$IMAGE")
+          echo "digest=${digest#*@}" >> "$GITHUB_OUTPUT"
+      - name: Attest image
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-name: ghcr.io/${{ github.repository }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
+      - name: Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$VERSION" dist/* --generate-notes
