@@ -35,6 +35,7 @@ jobs:
           mkdir dist
           id=$(docker create "$IMAGE")
           docker cp "$id:/nordray-vault" "dist/nordray-vault_${VERSION}_linux_amd64"
+          docker cp "$id:/THIRD-PARTY-LICENSES" dist/THIRD-PARTY-LICENSES
           docker rm "$id"
           (cd dist && sha256sum nordray-vault_* > SHA256SUMS && cat SHA256SUMS)
       - name: Attest binary

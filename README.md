@@ -63,3 +63,7 @@ The fixtures in `tests/fixtures` were made with `keepassxc-cli` 2.7 and hold dum
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+The image and each release include `THIRD-PARTY-LICENSES`, with the licenses of the crates compiled into the binary.
+It is generated at build time by [cargo-about](https://github.com/EmbarkStudios/cargo-about) (`about.toml`,
+`about.hbs`). A dependency under a license that `about.toml` doesn't accept fails the `check` workflow.
