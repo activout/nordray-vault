@@ -15,3 +15,5 @@ jobs:
       - uses: actions/checkout@v7
       # cargo test runs in the Dockerfile's test stage, with the same toolchain as the release build.
       - run: docker build --target test --output type=cacheonly .
+      # Fails when a dependency uses a license that about.toml doesn't accept.
+      - run: docker build --target licenses --output type=cacheonly .
