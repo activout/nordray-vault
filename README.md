@@ -10,7 +10,7 @@ the zone, but each can decrypt only its own. Secrets are edited with KeePassXC o
 ## Use in an app
 
 ```dockerfile
-COPY --from=ghcr.io/activout/nordray-vault:v0.1.0 /nordray-vault /usr/local/bin/
+COPY --from=ghcr.io/activout/nordray-vault:v0.1.1 /nordray-vault /usr/local/bin/
 ENTRYPOINT ["nordray-vault", "--", "dotnet", "MyApp.dll"]
 ```
 
@@ -35,8 +35,8 @@ The binary is static (musl), so it runs in any Linux image. Releases also attach
 Both the image and the binary have build provenance attestations:
 
 ```sh
-gh attestation verify oci://ghcr.io/activout/nordray-vault:v0.1.0 --repo activout/nordray-vault
-gh attestation verify nordray-vault_v0.1.0_linux_amd64 --repo activout/nordray-vault
+gh attestation verify oci://ghcr.io/activout/nordray-vault:v0.1.1 --repo activout/nordray-vault
+gh attestation verify nordray-vault_v0.1.1_linux_amd64 --repo activout/nordray-vault
 ```
 
 ## Managing secrets
