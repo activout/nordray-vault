@@ -57,4 +57,4 @@ The fixtures in `tests/fixtures` were made with `keepassxc-cli` 2.7 and hold dum
 
 ## License
 
-Apache License 2.0. See [LICENSE](LICENSE) and [NOTICE](NOTICE).
+MIT. See [LICENSE](LICENSE).
