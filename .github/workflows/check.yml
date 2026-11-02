@@ -1,0 +1,17 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      # cargo test runs in the Dockerfile's test stage, with the same toolchain as the release build.
+      - run: docker build --target test --output type=cacheonly .
