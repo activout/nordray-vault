@@ -88,8 +88,13 @@ rm -rf "$TMP"
 
 ```sh
 mkdir -p ~/.config/nordray-vault && chmod 700 ~/.config/nordray-vault
-keepassxc-cli db-create --set-key-file ~/.config/nordray-vault/$APP.keyx "$TMP/$APP.kdbx"   # no password
+cp <this skill's directory>/template.kdbx "$TMP/$APP.kdbx"
+echo nordray-vault-template | keepassxc-cli db-edit --set-key-file ~/.config/nordray-vault/$APP.keyx \
+  --unset-password "$TMP/$APP.kdbx"   # creates the key file and removes the password
 ```
+
+`template.kdbx` is an empty database with settings `db-create` doesn't offer: Argon2d with 10 rounds and 64 MiB, which
+opens fast enough at app start, and no recycle bin. Its password, `nordray-vault-template`, is public.
 
 1. The user adds the entries with `!`. Validate, then upload as `$APP.kdbx`.
 2. On the Bunny app, the user sets the `NORDRAY_VAULT_*` variables, or you set them after their confirmation:
