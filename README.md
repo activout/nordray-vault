@@ -1,11 +1,13 @@
 # nordray-vault
 
-Secrets for containerised apps on [bunny.net](https://bunny.net) (Magic Containers), without running a vault server.
+Secrets for containerised apps on [bunny.net Magic Containers](https://bunny.net/magic-containers/?ref=ch5ir79hyc) (affiliate link), without running a vault server.
 
 Each app has one KeePass file (`<app>.kdbx`) in a Bunny storage zone and holds only that file's key file. The
 `nordray-vault` binary is the container's entrypoint. It downloads the app's file, unlocks it, exports the entries as
 environment variables and execs the app, so the app itself needs no changes. Every app can download every file in
 the zone, but each can decrypt only its own. Secrets are edited with KeePassXC or `keepassxc-cli`.
+
+No bunny.net account yet? Sign up at [bunny.net](https://bunny.net?ref=ch5ir79hyc) (affiliate link: Activout gets a commission, you pay the same price).
 
 ## Use in an app
 
